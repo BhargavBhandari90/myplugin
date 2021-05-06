@@ -3,14 +3,14 @@
 function metadata_handle_callback( $post_id, $post, $update ) {
 
 	if ( $update ) {
-        return;
-    }
+		return;
+	}
 
 	// add_post_meta( $post_id, 'test_meta_key', 'yes' );
 
 	// update_post_meta( $post_id, 'test_meta_key', 'no' );
 
-    delete_post_meta( $post_id, 'test_meta_key' );
+	delete_post_meta( $post_id, 'test_meta_key' );
 
 }
 
@@ -19,16 +19,16 @@ add_action( 'save_post', 'metadata_handle_callback', 10, 3 );
 // Add meta box.
 function wporg_add_custom_box() {
 
-    $screens = [ 'post', 'book' ];
-    foreach ( $screens as $screen ) {
-        add_meta_box(
-            'wporg_box_id',                 // Unique ID
-            'Custom Meta Box Title',      // Box title
-            'wporg_custom_box_html',  // Content callback, must be of type callable
-            $screen,                            // Post type
-            'side'
-        );
-    }
+	$screens = [ 'post', 'book' ];
+	foreach ( $screens as $screen ) {
+		add_meta_box(
+			'wporg_box_id',                 // Unique ID
+			'Custom Meta Box Title',      // Box title
+			'wporg_custom_box_html',  // Content callback, must be of type callable
+			$screen,                            // Post type
+			'side'
+		);
+	}
 
 }
 
@@ -45,13 +45,13 @@ function wporg_custom_box_html( $post ) {
 
 function wporg_save_postdata( $post_id ) {
 
-    if ( array_key_exists( 'custom_meta_key', $_POST ) ) {
-        update_post_meta(
-            $post_id,
-            'custom_meta_key',
-            $_POST['custom_meta_key']
-        );
-    }
+	if ( array_key_exists( 'custom_meta_key', $_POST ) ) {
+		update_post_meta(
+			$post_id,
+			'custom_meta_key',
+			$_POST['custom_meta_key']
+		);
+	}
 }
 
 add_action( 'save_post', 'wporg_save_postdata' );
