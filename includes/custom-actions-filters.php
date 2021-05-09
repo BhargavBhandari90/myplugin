@@ -55,3 +55,21 @@ function wporg_save_postdata( $post_id ) {
 }
 
 add_action( 'save_post', 'wporg_save_postdata' );
+
+function wp_custom_body_class( $classes ) {
+
+	if ( is_single() ) {
+		$classes[] = 'buntywp';
+	}
+
+	return $classes;
+
+}
+
+add_filter( 'body_class', 'wp_custom_body_class' );
+
+
+
+
+
+
