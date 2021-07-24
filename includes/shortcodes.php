@@ -4,8 +4,13 @@ add_shortcode( 'post_list', 'bunty_shortcode' );
 
 function bunty_shortcode( $attr ) {
 
-	$number    = isset( $attr['number'] ) ? $attr['number'] : 10;
-	$post_type = isset( $attr['post_type'] ) ? $attr['post_type'] : 'post';
+	$attr = shortcode_atts( array(
+		'number'    => 5,
+		'post_type' => 'book',
+	), $attr );
+
+	$number    = $attr['number'];
+	$post_type = $attr['post_type'];
 
 	$args = array(
 		'post_type'      => $post_type,
