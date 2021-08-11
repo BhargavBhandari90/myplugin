@@ -85,5 +85,3 @@ function wp_custom_css_js() {
 		trailingslashit( MY_PLUGIN_URL ) . 'assets/css/plugin.css'
 	);
 }
-
-add_action( 'wp_enqueue_scripts', 'wp_custom_css_js' );
