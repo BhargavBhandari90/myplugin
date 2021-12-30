@@ -68,8 +68,22 @@ function wp_custom_body_class( $classes ) {
 
 add_filter( 'body_class', 'wp_custom_body_class' );
 
+function wp_custom_css_js() {
 
+	wp_enqueue_script(
+		'myplugin-script',
+		trailingslashit( MY_PLUGIN_URL ) . 'assets/js/plugin.js',
+		array(
+			'jquery',
+		),
+		MY_PLUGIN_VER,
+		true
+	);
 
+	wp_enqueue_style(
+		'myplugin-style',
+		trailingslashit( MY_PLUGIN_URL ) . 'assets/css/plugin.css'
+	);
+}
 
-
-
+add_action( 'wp_enqueue_scripts', 'wp_custom_css_js' );
