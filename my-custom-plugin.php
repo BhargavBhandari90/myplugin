@@ -17,3 +17,4 @@ include plugin_dir_path( __FILE__ ) . 'includes/custom-ajax.php';
 include plugin_dir_path( __FILE__ ) . 'includes/custom-actions-filters.php';
 include plugin_dir_path( __FILE__ ) . 'includes/custom-fancybox-gallery.php';
 include plugin_dir_path( __FILE__ ) . 'includes/shortcodes.php';
+include plugin_dir_path( __FILE__ ) . 'includes/admin.php';
