@@ -85,3 +85,18 @@ function wp_custom_css_js() {
 		trailingslashit( MY_PLUGIN_URL ) . 'assets/css/plugin.css'
 	);
 }
+
+function bunty_custom_rule() {
+
+	global $wp_filesystem;
+
+	include_once ABSPATH . 'wp-admin/includes/file.php';
+	WP_Filesystem();
+
+	$states_json = $wp_filesystem->get_contents( trailingslashit( MY_PLUGIN_PATH ) . 'assets/states.json' );
+
+	$states = json_decode( $states_json, true );
+
+}
+
+add_action( 'init', 'bunty_custom_rule' );
