@@ -1,0 +1,1 @@
+{"version":3,"sources":["@wordpress/core-data/src/queried-data/index.js"],"names":["default","reducer"],"mappings":"AAAA,cAAc,WAAd;AACA,cAAc,aAAd;AACA,SAASA,OAAO,IAAIC,OAApB,QAAmC,WAAnC","sourcesContent":["export * from './actions';\nexport * from './selectors';\nexport { default as reducer } from './reducer';\n"]}

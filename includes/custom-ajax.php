@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'wp_footer', 'my_action_javascript', 9999 ); // Write our JS below here
+// add_action( 'wp_footer', 'my_action_javascript', 9999 ); // Write our JS below here
 
 function my_action_javascript() { ?>
 	<script type="text/javascript" >

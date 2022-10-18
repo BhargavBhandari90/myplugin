@@ -11,6 +11,8 @@
  */
 function custom_rewrite_rules() {
 
+	// echo base64_encode( "test_ttpster" . ':' . "MmhV^sLF&an5oYOSImm1l2C(" );
+
 	add_rewrite_rule( '^post/([^/]+)/?$', 'index.php?name=$matches[1]', 'top' );
     // add_rewrite_rule( '^book/([^/]+)/?$', 'index.php?name=$matches[1]', 'top' );
 }

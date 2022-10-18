@@ -19,6 +19,7 @@ include plugin_dir_path( __FILE__ ) . 'includes/custom-actions-filters.php';
 include plugin_dir_path( __FILE__ ) . 'includes/custom-fancybox-gallery.php';
 include plugin_dir_path( __FILE__ ) . 'includes/shortcodes.php';
 include plugin_dir_path( __FILE__ ) . 'includes/admin.php';
-include plugin_dir_path( __FILE__ ) . 'includes/acf-timezone.php';
+// include plugin_dir_path( __FILE__ ) . 'includes/acf-timezone.php';
 include plugin_dir_path( __FILE__ ) . 'includes/common-functions.php';
 include plugin_dir_path( __FILE__ ) . 'includes/permalink.php';
+include plugin_dir_path( __FILE__ ) . 'includes/acf-form.php';
