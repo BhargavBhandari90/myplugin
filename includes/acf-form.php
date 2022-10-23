@@ -6,7 +6,7 @@ function bwp_acf_form_front( $attr ) {
         return;
     }
 
-   //  ob_start();
+   ob_start();
 
     $args = array(
         'id'           => 'bwp-acf-form',
@@ -19,12 +19,12 @@ function bwp_acf_form_front( $attr ) {
         'post_title'   => true,
         'post_content' => true,
         'submit_value' => __( 'Add Book', 'acf' ),
-        'updated_message' => __( "Book updated", 'acf' ),
+        'updated_message' => __( 'Book has been added', 'acf' ),
     );
 
     acf_form( $args );
 
-    // return ob_get_clean();
+    return ob_get_clean();
 
 }
 
@@ -40,4 +40,12 @@ function bwp_acf_head() {
 
 }
 
-add_action( 'wp_head', 'bwp_acf_head', 2 );
+add_action( 'wp_head', 'bwp_acf_head', 1 );
+
+function bwp_save_post( $post_id ) {
+
+    update_post_meta( $post_id, 'acf_submission', 1 );
+
+}
+
+add_action( 'acf/save_post', 'bwp_save_post' );

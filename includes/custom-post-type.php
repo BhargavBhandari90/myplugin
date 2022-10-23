@@ -45,6 +45,7 @@ function wpdocs_codex_book_init() {
         'hierarchical'       => false,
         'menu_position'      => null,
         'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+        'show_in_rest'       => true,
     );
 
     register_post_type( 'book', $args );
