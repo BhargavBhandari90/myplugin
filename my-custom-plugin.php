@@ -23,5 +23,6 @@ include plugin_dir_path( __FILE__ ) . 'includes/admin.php';
 include plugin_dir_path( __FILE__ ) . 'includes/common-functions.php';
 include plugin_dir_path( __FILE__ ) . 'includes/permalink.php';
 include plugin_dir_path( __FILE__ ) . 'includes/acf-form.php';
-include plugin_dir_path( __FILE__ ) . 'includes/custom-api.php';
-// include plugin_dir_path( __FILE__ ) . 'includes/class-custom-api.php';
+// include plugin_dir_path( __FILE__ ) . 'includes/custom-api.php';
+include plugin_dir_path( __FILE__ ) . 'includes/class-custom-api.php';
+include plugin_dir_path( __FILE__ ) . 'includes/custom-cli-commands.php';
