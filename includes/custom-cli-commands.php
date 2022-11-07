@@ -26,6 +26,8 @@ class BWP_Command {
 	 * ## EXAMPLES
 	 *
 	 *    wp bwp hello BuntyWP --type=error
+	 *
+	 * @alias hi
 	 */
 	public function hello( $args, $assoc_args ) {
 
@@ -36,6 +38,21 @@ class BWP_Command {
 		} else {
 			WP_CLI::error( 'Hello '. $name .'!' );
 		}
+	}
+
+	/**
+	 * Just a Demo Command for alias.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *    wp bwp sort
+	 *
+	 * @alias sort
+	 */
+	public function _sort( $args ) {
+
+		WP_CLI::line( 'This is sort command' );
+
 	}
 
 }
