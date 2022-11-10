@@ -55,6 +55,106 @@ class BWP_Command {
 
 	}
 
+	/**
+	 * Prints a result from post type.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <posttype>
+	 * : Post type.
+	 *
+	 * [--type=<type>]
+	 * : Which format type you want to have an output.
+	 * ---
+	 * default: table
+	 * options:
+	 *   - table
+	 *   - json
+	 *   - csv
+	 *   - yaml
+	 *   - ids
+	 *   - count
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 *    wp bwp getitems post --type=csv
+	 *
+	 * @alias hi
+	 */
+	public function getitems( $args, $assoc_args ) {
+
+		$post_type = $args[0];
+		$type      = $assoc_args['type'];
+
+		$args = array(
+			'post_type'      => $post_type,
+			'status'         => 'publish',
+			'posts_per_page' => 10,
+		);
+
+		$items = array();
+
+		// The Query
+		$the_query = new WP_Query( $args );
+
+		// The Loop
+		if ( $the_query->have_posts() ) {
+
+			$c = 0;
+
+			while ( $the_query->have_posts() ) {
+				$the_query->the_post();
+
+				$items[$c]['id']    = get_the_ID();
+				$items[$c]['title'] = get_the_title();
+
+				$c++;
+			}
+
+		}
+		/* Restore original Post Data */
+		wp_reset_postdata();
+
+		WP_CLI\Utils\format_items( $type, $items, array( 'id', 'title' ) );
+
+	}
+
+	/**
+	 * Update options.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--count=<count>]
+	 * : How many options to update.
+	 * ---
+	 * default: 5
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 *    wp bwp bwp_progress --count=10
+	 */
+	public function bwp_progress( $args, $assoc_args ) {
+
+		$count = $assoc_args['count'];
+
+		$progress = WP_CLI\Utils\make_progress_bar( 'Updating Options Progress:', $count );
+
+		for ( $i=0; $i < $count; $i++ ) {
+
+			update_option( 'bwp_progress_' . $i, 'yes' );
+
+			sleep(1);
+
+			$progress->tick();
+
+		}
+
+		$progress->finish();
+
+	}
+
 }
 
 WP_CLI::add_command( 'bwp', 'BWP_Command' );
