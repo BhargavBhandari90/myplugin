@@ -33,6 +33,8 @@ class BWP_Command {
 
 		$name = $args[0];
 
+		WP_CLI::debug( $args[0], 'namevar' );
+
 		if ( 'success' == $assoc_args['type'] ) {
 			WP_CLI::success( 'Hello '. $name .'!' );
 		} else {
@@ -152,6 +154,20 @@ class BWP_Command {
 		}
 
 		$progress->finish();
+
+		WP_CLI::line( WP_CLI::colorize( "%Progress is done...." ) );
+
+	}
+
+	public function bwp_colorise( $args, $assoc_args ) {
+
+		WP_CLI::line( WP_CLI::colorize( "%MBuntyWP\n%YBuntyWP\n%bBuntyWP" ) );
+
+	}
+
+	public function bwp_debug( $args, $assoc_args ) {
+
+		WP_CLI::debug( 'BuntyWP Debuging.....', 'custom-subcommmand' );
 
 	}
 
