@@ -90,7 +90,8 @@ class BWP_Command {
 		$type      = $assoc_args['type'];
 
 		if ( ! post_type_exists( $post_type ) ) {
-			WP_CLI::error( $post_type . ' Post type doesn\'t exist. Check the post type.' );
+			WP_CLI::line( $post_type . ' Post type doesn\'t exist. Check the post type.' );
+			WP_CLI::halt( 2 );
 			// $post_type = 'post';
 		}
 
@@ -189,6 +190,13 @@ class BWP_Command {
 		WP_CLI::error( 'Bunty WP test.' );
 
 		WP_CLI::line( 'This is after warning...' );
+
+	}
+
+	public function bwp_halt( $args, $assoc_args ) {
+
+		WP_CLI::line( 'Stopping with custom code....' );
+		WP_CLI::halt( 22 );
 
 	}
 
