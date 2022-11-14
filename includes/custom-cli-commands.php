@@ -89,6 +89,11 @@ class BWP_Command {
 		$post_type = $args[0];
 		$type      = $assoc_args['type'];
 
+		if ( ! post_type_exists( $post_type ) ) {
+			WP_CLI::error( $post_type . ' Post type doesn\'t exist. Check the post type.' );
+			// $post_type = 'post';
+		}
+
 		$args = array(
 			'post_type'      => $post_type,
 			'status'         => 'publish',
@@ -168,6 +173,22 @@ class BWP_Command {
 	public function bwp_debug( $args, $assoc_args ) {
 
 		WP_CLI::debug( 'BuntyWP Debuging.....', 'custom-subcommmand' );
+
+	}
+
+	public function bwp_warning( $args, $assoc_args ) {
+
+		WP_CLI::warning( 'Bunty WP test.' );
+
+		WP_CLI::line( 'This is after warning...' );
+
+	}
+
+	public function bwp_error( $args, $assoc_args ) {
+
+		WP_CLI::error( 'Bunty WP test.' );
+
+		WP_CLI::line( 'This is after warning...' );
 
 	}
 
