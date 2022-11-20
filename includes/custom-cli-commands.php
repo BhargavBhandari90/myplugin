@@ -187,7 +187,7 @@ class BWP_Command {
 
 	public function bwp_error( $args, $assoc_args ) {
 
-		WP_CLI::error( 'Bunty WP test.' );
+		WP_CLI::error_multi_line( 'Bunty WP test./n abc' );
 
 		WP_CLI::line( 'This is after warning...' );
 
@@ -197,6 +197,31 @@ class BWP_Command {
 
 		WP_CLI::line( 'Stopping with custom code....' );
 		WP_CLI::halt( 22 );
+
+	}
+
+	/**
+	 * Prints a result from post type.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <posttype>
+	 * : Post type.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *    wp bwp bwp_success post
+	 *
+	 */
+	public function bwp_success( $args, $assoc_args ) {
+
+		$post_type = $args[0];
+
+		if ( post_type_exists( $post_type ) ) {
+			WP_CLI::success( $post_type . ' is a valid post type....' );
+		} else {
+			WP_CLI::error( $post_type . ' is not available....' );
+		}
 
 	}
 

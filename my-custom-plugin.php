@@ -26,3 +26,4 @@ include plugin_dir_path( __FILE__ ) . 'includes/acf-form.php';
 // include plugin_dir_path( __FILE__ ) . 'includes/custom-api.php';
 include plugin_dir_path( __FILE__ ) . 'includes/class-custom-api.php';
 include plugin_dir_path( __FILE__ ) . 'includes/custom-cli-commands.php';
+include plugin_dir_path( __FILE__ ) . 'includes/wpdb-methods.php';
