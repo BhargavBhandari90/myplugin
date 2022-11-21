@@ -44,6 +44,22 @@ function bwp_wbdb_methods() {
 
 	}
 
+	$can_delete = $_GET['delete'];
+
+	if ( ! empty( $can_delete ) ) {
+
+		$count = $wpdb->delete(
+			$table,
+			array(
+				'first_name' => 'ABC',
+				'age'        => '33',
+			)
+		);
+
+		echo $count . ' rows delete';
+
+	}
+
 }
 
 add_action( 'wp_head', 'bwp_wbdb_methods' );
