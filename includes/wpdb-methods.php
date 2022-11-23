@@ -60,6 +60,16 @@ function bwp_wbdb_methods() {
 
 	}
 
+	$can_select =  $_GET['select'];
+
+	if ( ! empty( $can_select ) ) {
+
+		$result = $wpdb->get_var( "SELECT * FROM {$table}", 1, 2 );
+
+		echo 'Result is : ' . $result;
+
+	}
+
 }
 
 add_action( 'wp_head', 'bwp_wbdb_methods' );
