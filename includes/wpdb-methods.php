@@ -80,6 +80,15 @@ function bwp_wbdb_methods() {
 
 	}
 
+	$get_column = $_GET['get_column'];
+
+	if ( ! empty( $get_column ) ) {
+
+		$result = $wpdb->get_col( "SELECT `last_name` FROM {$table}" );
+
+		echo '<pre>';print_r($result);echo '</pre>';
+
+	}
 }
 
 add_action( 'wp_head', 'bwp_wbdb_methods' );
