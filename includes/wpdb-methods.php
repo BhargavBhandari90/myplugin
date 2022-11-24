@@ -60,13 +60,23 @@ function bwp_wbdb_methods() {
 
 	}
 
-	$can_select =  $_GET['select'];
+	$can_select = $_GET['select'];
 
 	if ( ! empty( $can_select ) ) {
 
 		$result = $wpdb->get_var( "SELECT * FROM {$table}", 1, 2 );
 
 		echo 'Result is : ' . $result;
+
+	}
+
+	$get_row = $_GET['get_row'];
+
+	if ( ! empty( $get_row ) ) {
+
+		$result = $wpdb->get_row( "SELECT * FROM {$table} WHERE `first_name` = 'ABC' ", 'OBJECT', 1 );
+
+		echo '<pre>';print_r($result);echo '</pre>';
 
 	}
 
