@@ -89,6 +89,17 @@ function bwp_wbdb_methods() {
 		echo '<pre>';print_r($result);echo '</pre>';
 
 	}
+
+	$get_results = $_GET['get_results'];
+
+	if ( ! empty( $get_results ) ) {
+
+		$result = $wpdb->get_results( "SELECT `first_name`, `last_name` FROM {$table} LIMIT 2" );
+
+		echo '<pre>';print_r($result);echo '</pre>';
+
+	}
+
 }
 
 add_action( 'wp_head', 'bwp_wbdb_methods' );
