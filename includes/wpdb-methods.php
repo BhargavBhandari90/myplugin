@@ -100,6 +100,16 @@ function bwp_wbdb_methods() {
 
 	}
 
+	$get_query = $_GET['get_query'];
+
+	if ( ! empty( $get_query ) ) {
+
+		$result = $wpdb->query( "DELETE FROM {$table} WHERE `first_name` = 'ABC'" );
+
+		echo '<pre>';print_r($result);echo '</pre>';
+
+	}
+
 }
 
 add_action( 'wp_head', 'bwp_wbdb_methods' );
