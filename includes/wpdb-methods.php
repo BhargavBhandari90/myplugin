@@ -53,6 +53,10 @@ function bwp_wbdb_methods() {
 			array(
 				'first_name' => 'ABC',
 				'age'        => '33',
+			),
+			array(
+				'%s',
+				'%d'
 			)
 		);
 
@@ -64,7 +68,13 @@ function bwp_wbdb_methods() {
 
 	if ( ! empty( $can_select ) ) {
 
-		$result = $wpdb->get_var( "SELECT * FROM {$table}", 1, 2 );
+		$sql = $wpdb->prepare(
+			"SELECT `first_name` FROM {$table} WHERE `age` = %d AND `last_name` = %s",
+			55,
+			'Kalam'
+		);
+
+		$result = $wpdb->get_var( $sql );
 
 		echo 'Result is : ' . $result;
 
@@ -111,5 +121,3 @@ function bwp_wbdb_methods() {
 	}
 
 }
-
-add_action( 'wp_head', 'bwp_wbdb_methods' );
