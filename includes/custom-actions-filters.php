@@ -94,11 +94,20 @@ function wp_custom_css_js() {
 		true
 	);
 
+	$args = array(
+		'ajaxurl'         => admin_url( 'admin-ajax.php' ),
+		'current_user_id' => get_current_user_id(),
+	);
+
+	wp_localize_script( 'myplugin-script', 'bwp_obj', $args );
+
 	wp_enqueue_style(
 		'myplugin-style',
 		trailingslashit( MY_PLUGIN_URL ) . 'assets/css/plugin.css'
 	);
 }
+
+add_action( 'wp_enqueue_scripts', 'wp_custom_css_js' );
 
 function bunty_custom_rule() {
 

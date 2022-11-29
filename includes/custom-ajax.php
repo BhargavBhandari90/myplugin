@@ -12,13 +12,13 @@ function my_action_javascript() { ?>
 		};
 
 		// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-		jQuery.post( ajax_object.ajaxurl, data, function( response ) {
+		jQuery.post( ajaxurl, data, function( response ) {
 
 			jQuery( '#post-list' ).html(response);
 
 		});
 	});
-	</script> <?php
+	</script><?php
 }
 
 add_action( 'wp_ajax_custom_ajax_action', 'custom_ajax_callback' );
@@ -30,6 +30,7 @@ function custom_ajax_callback() {
 		'post_type'      => 'post',
 		'status'         => 'publish',
 		'posts_per_page' => 10,
+		'author'         => $_POST['author']
 	);
 
 	$posts_titles = '';
