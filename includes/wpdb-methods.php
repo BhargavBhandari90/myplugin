@@ -11,16 +11,24 @@ function bwp_wbdb_methods() {
 	if ( ! empty( $can_insert ) ) {
 
 		$data  = array(
-			'first_name' => 'Bunty',
-			'last_name'  => 'WP',
+			'first_name' => 'Bunty1',
+			'last_name'  => 'WP1',
+			'age'        => 41,
 		);
 
-		$wpdb->insert(
+		$inserted = $wpdb->insert(
 			$table,
-			$data
+			$data,
+			array(
+				'%s',
+				'%d',
+				'%s',
+			)
 		);
 
-		echo 'Data inserted...';
+		var_dump( $inserted );
+
+		// echo 'Data inserted...';
 
 	}
 
@@ -38,6 +46,14 @@ function bwp_wbdb_methods() {
 				'age'       => '20',
 				'last_name' => 'WP',
 			),
+			array(
+				'%s',
+				'%s',
+			),
+			array(
+				'%d',
+				'%s',
+			)
 		);
 
 		echo 'Data Updated...';
@@ -121,3 +137,5 @@ function bwp_wbdb_methods() {
 	}
 
 }
+
+add_action( 'wp_head', 'bwp_wbdb_methods' );
