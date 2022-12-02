@@ -97,6 +97,7 @@ function wp_custom_css_js() {
 	$args = array(
 		'ajaxurl'         => admin_url( 'admin-ajax.php' ),
 		'current_user_id' => get_current_user_id(),
+		'bwp_nounce'      => wp_create_nonce( 'bwp_ajax_action' ),
 	);
 
 	wp_localize_script( 'myplugin-script', 'bwp_obj', $args );

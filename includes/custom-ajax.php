@@ -26,6 +26,8 @@ add_action( 'wp_ajax_nopriv_custom_ajax_action', 'custom_ajax_callback' );
 
 function custom_ajax_callback() {
 
+	check_ajax_referer( 'bwp_ajax_action', 'security' );
+
 	$args = array(
 		'post_type'      => 'post',
 		'status'         => 'publish',
