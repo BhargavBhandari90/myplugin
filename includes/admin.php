@@ -147,10 +147,81 @@ add_action( 'edit_user_profile_update', 'buntywp_save_extra_user_profile_fields'
 
 // register custom meta tag field
 function myguten_register_post_meta() {
-    register_post_meta( 'post', 'myguten_meta_block_field', array(
-        'show_in_rest' => true,
-        'single' => true,
-        'type' => 'string',
-    ) );
+	register_post_meta(
+		'post',
+		'myguten_meta_block_field',
+		array(
+			'show_in_rest' => true,
+			'single'       => true,
+			'type'         => 'string',
+		)
+	);
 }
 // add_action( 'init', 'myguten_register_post_meta' );
+
+
+/** Custom admin menu page form - start */
+
+/**
+ * Register a custom menu page.
+ */
+function bwp_my_custom_menu_page() {
+
+	add_menu_page(
+		__( 'BWP Settings', 'textdomain' ),
+		__( 'BWP Settings', 'textdomain' ),
+		'manage_options',
+		'bwp_settings',
+		'bwp_my_custom_menu_page_callback',
+		'',
+		6
+	);
+}
+add_action( 'admin_menu', 'bwp_my_custom_menu_page' );
+
+function bwp_my_custom_menu_page_callback() {
+	?>
+
+	<div class="wrap">
+		<h1>BWP Settings</h1>
+		<form method="post" action="options.php" novalidate="novalidate">
+			<?php settings_fields( 'bwp_settings' ); ?>
+			<table class="form-table" role="presentation">
+			<?php do_settings_fields( 'bwp_settings', 'default' ); ?>
+			</table>
+			<?php submit_button(); ?>
+		</form>
+	</div>
+
+	<?php
+}
+
+
+function bwp_register_my_setting() {
+
+	$args = array(
+		'type'              => 'string',
+		'sanitize_callback' => 'sanitize_text_field',
+		'default'           => null,
+	);
+
+	register_setting( 'bwp_settings', 'bwp_field_1', $args );
+
+	add_settings_field(
+		'bwp_field_1',
+		esc_html__( 'Field 1', 'default' ),
+		'bwp_setting_field_callback',
+		'bwp_settings'
+	);
+}
+
+add_action( 'admin_init', 'bwp_register_my_setting' );
+
+function bwp_setting_field_callback() {
+
+	$value = get_option( 'bwp_field_1' );
+
+	echo '<input type="text" name="bwp_field_1" value="' . esc_attr( $value ) . '" />';
+}
+
+/** Custom admin menu page form - End */
