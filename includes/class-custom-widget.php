@@ -2,9 +2,9 @@
 
 class WP_Widget_Custom_Post_List extends WP_Widget {
 
-    public function __construct() {
+	public function __construct() {
 
-       $widget_ops = array(
+		$widget_ops = array(
 			'classname'                   => 'widget_custom_post_list',
 			'description'                 => __( 'This is Custom post list.' ),
 			'customize_selective_refresh' => true,
@@ -18,31 +18,46 @@ class WP_Widget_Custom_Post_List extends WP_Widget {
 			}
 		);
 
-    }
+	}
 
-    public function widget( $args, $instance ) {
+	public function widget( $args, $instance ) {
 
-    	?>
+		echo $args['before_widget'];
 
-    	 <form  class="form-group" method="POST" id="form" action="">
-	        <label>Name</label><br>
-	        <input class="form-control" type="text" id="name" name="name" ><br>
-	        <label>Mobile</label><br>
-	        <input type="text" class="form-control" id="mobileno" name="mobileno" required><br>
-	        <label>Email</label><br>
-	        <input class="form-control"  type="email" id="email" name="email" ><br>
-	        <label>Message</label><br>
-	        <textarea class="form-control" id="message" name="message"  maxlength="10" onKeyPress="lengthcheck()"></textarea><br><br>
-	        <button  class="btn btn-warning" type="submit" id="submit">Send Message</button>
-	    </form>
+		?>
 
-	    <?php
+		<h1>Custom Widget</h1>
 
-    }
+		<?php
 
-    public function form( $instance ) {
+		$url = 'http://localhost:8888/wp2/wp-json/wp/v2/posts';
 
-    	$title              = $instance['title'];
+		$request = wp_remote_get( $url );
+
+		if ( ! is_wp_error( $request ) ) {
+
+			$body = wp_remote_retrieve_body( $request );
+			$data = json_decode( $body );
+
+			echo '<ul>';
+
+			foreach ( $data as $bwp_post ) {
+
+				echo '<li>' . $bwp_post->title->rendered . '</li>';
+
+			}
+
+			echo '</ul>';
+
+		}
+
+		echo $args['after_widget'];
+
+	}
+
+	public function form( $instance ) {
+
+		$title              = $instance['title'];
 		$selected_post_type = $instance['post_type'];
 		$limit              = $instance['limit'];
 		?>
@@ -84,11 +99,11 @@ class WP_Widget_Custom_Post_List extends WP_Widget {
 
 		<?php
 
-    }
+	}
 
-    public function update( $new_instance, $old_instance ) {
-        return $new_instance;
-    }
+	public function update( $new_instance, $old_instance ) {
+		return $new_instance;
+	}
 }
 
 new WP_Widget_Custom_Post_List();
