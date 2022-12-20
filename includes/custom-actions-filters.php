@@ -146,3 +146,14 @@ function test_emai_callback() {
 }
 
 add_action( 'init', 'test_emai_callback' );
+
+function buntywp_singular_plural_text() {
+
+	$count = 0;
+
+	echo $count . ' ' . _n( 'Student', 'Students', $count );
+
+}
+
+add_action( 'init', 'buntywp_singular_plural_text' );
+
