@@ -155,5 +155,5 @@ function buntywp_singular_plural_text() {
 
 }
 
-add_action( 'init', 'buntywp_singular_plural_text' );
+// add_action( 'init', 'buntywp_singular_plural_text' );
 

@@ -225,3 +225,20 @@ function bwp_setting_field_callback() {
 }
 
 /** Custom admin menu page form - End */
+
+function bwp_admin_sub_menus() {
+
+	add_posts_page(
+		__( 'BWP Page Title', 'default' ),
+		__( 'BWP Menu Title', 'default' ),
+		'manage_options',
+		'bwp-page-slug',
+		'bwp_admin_sub_menu_callback'
+	);
+}
+
+add_action( 'admin_menu', 'bwp_admin_sub_menus' );
+
+function bwp_admin_sub_menu_callback() {
+	echo '<p>This is sub menu page.</p>';
+}
