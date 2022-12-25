@@ -28,7 +28,10 @@ function bunty_shortcode( $attr ) {
 		echo '<ul>';
 		while ( $the_query->have_posts() ) {
 			$the_query->the_post();
-			echo '<li>' . get_the_title() . '</li>';
+
+			$checked = checked( get_the_title(), 'Ram Setu', false );
+
+			echo '<li><input ' . $checked . ' type="checkbox" name="book_title[]" value="' . get_the_title() . '" /> ' . get_the_title() . '</li>';
 		}
 		echo '</ul>';
 	} else {
