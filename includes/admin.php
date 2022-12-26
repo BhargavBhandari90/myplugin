@@ -213,6 +213,15 @@ function bwp_register_my_setting() {
 		'bwp_setting_field_callback',
 		'bwp_settings'
 	);
+
+	register_setting( 'bwp_settings', 'bwp_select', $args );
+
+	add_settings_field(
+		'bwp_select',
+		esc_html__( 'Books', 'bwp' ),
+		'bwp_setting_book_field_callback',
+		'bwp_settings'
+	);
 }
 
 add_action( 'admin_init', 'bwp_register_my_setting' );
@@ -222,6 +231,47 @@ function bwp_setting_field_callback() {
 	$value = get_option( 'bwp_field_1' );
 
 	echo '<input type="text" name="bwp_field_1" value="' . esc_attr( $value ) . '" />';
+}
+
+function bwp_setting_book_field_callback() {
+
+	$value = get_option( 'bwp_select' );
+
+	?>
+	<select name="bwp_select">
+		<option>-Select-</option>
+		<?php
+
+		$args = array(
+			'post_type'      => 'book',
+			'status'         => 'publish',
+			'posts_per_page' => 10,
+		);
+
+		// The Query
+		$the_query = new WP_Query( $args );
+
+		// The Loop
+		if ( $the_query->have_posts() ) {
+
+			while ( $the_query->have_posts() ) {
+				$the_query->the_post();
+
+				// $selected = ( get_the_title() == $value ) ? 'selected' : '';
+				$selected = selected( get_the_title(), $value, false );
+
+				echo '<option ' . $selected . ' value="' . get_the_title() . '">' . get_the_title() . '</option>';
+			}
+
+		} else {
+			// no posts found
+		}
+		/* Restore original Post Data */
+		wp_reset_postdata();
+
+		?>
+	</select>
+	<?php
 }
 
 /** Custom admin menu page form - End */
