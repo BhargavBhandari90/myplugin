@@ -5,8 +5,7 @@ Plugin URI: https://wordpress.com/
 Description: Plugin Description goes here.
 Author: BuntyWP
 Version: 1.0.0
-Text Domain: bwp
-Domain Path: /languages
+Text Domain: buntywp
 Author URI: http://bhargavb.wordpress.com/
 */
 

@@ -168,8 +168,8 @@ function myguten_register_post_meta() {
 function bwp_my_custom_menu_page() {
 
 	add_menu_page(
-		__( 'BWP Settings', 'textdomain' ),
-		__( 'BWP Settings', 'textdomain' ),
+		__( 'BWP Settings', 'buntywp' ),
+		__( 'BWP Settings', 'buntywp' ),
 		'manage_options',
 		'bwp_settings',
 		'bwp_my_custom_menu_page_callback',
@@ -183,7 +183,7 @@ function bwp_my_custom_menu_page_callback() {
 	?>
 
 	<div class="wrap">
-		<h1>BWP Settings</h1>
+		<h1><?php echo __( 'BWP Settings', 'buntywp' ); ?></h1>
 		<form method="post" action="options.php" novalidate="novalidate">
 			<?php settings_fields( 'bwp_settings' ); ?>
 			<table class="form-table" role="presentation">
@@ -209,7 +209,7 @@ function bwp_register_my_setting() {
 
 	add_settings_field(
 		'bwp_field_1',
-		esc_html__( 'Field 1', 'bwp' ),
+		esc_html__( 'Field 1', 'buntywp' ),
 		'bwp_setting_field_callback',
 		'bwp_settings'
 	);
@@ -218,7 +218,7 @@ function bwp_register_my_setting() {
 
 	add_settings_field(
 		'bwp_select',
-		esc_html__( 'Books', 'bwp' ),
+		esc_html__( 'Books', 'buntywp' ),
 		'bwp_setting_book_field_callback',
 		'bwp_settings'
 	);
