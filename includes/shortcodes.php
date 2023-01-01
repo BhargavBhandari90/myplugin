@@ -12,14 +12,26 @@ function bunty_shortcode( $attr ) {
 	$number    = $attr['number'];
 	$post_type = $attr['post_type'];
 
-	$args = array(
-		'post_type'      => $post_type,
-		'status'         => 'publish',
-		'posts_per_page' => $number,
-	);
+	$data = get_transient( 'bwp_post_list' );
 
-	// The Query
-	$the_query = new WP_Query( $args );
+	if ( false !== $data ) {
+
+		$the_query = $data;
+
+	} else {
+
+		$args = array(
+			'post_type'      => $post_type,
+			'status'         => 'publish',
+			'posts_per_page' => $number,
+		);
+
+		// The Query
+		$the_query = new WP_Query( $args );
+
+		set_transient( 'bwp_post_list', $the_query, 6 * HOUR_IN_SECONDS );
+
+	}
 
 	ob_start();
 
@@ -34,6 +46,7 @@ function bunty_shortcode( $attr ) {
 			echo '<li><input ' . $checked . ' type="checkbox" name="book_title[]" value="' . get_the_title() . '" /> ' . get_the_title() . '</li>';
 		}
 		echo '</ul>';
+
 	} else {
 		// no posts found
 	}
