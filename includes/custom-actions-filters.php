@@ -157,3 +157,11 @@ function buntywp_singular_plural_text() {
 
 // add_action( 'init', 'buntywp_singular_plural_text' );
 
+
+function bwp_delete_trasient( $post_id ) {
+
+	delete_transient( 'bwp_post_list' );
+
+}
+
+add_action( 'save_post_book', 'bwp_delete_trasient' );
