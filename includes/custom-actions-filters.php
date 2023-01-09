@@ -56,13 +56,13 @@ function wporg_save_postdata( $post_id ) {
 		update_post_meta(
 			$post_id,
 			'custom_meta_key',
-			$_POST['custom_meta_key']
+			sanitize_text_field( $_POST['custom_meta_key'] )
 		);
 
 		update_post_meta(
 			$post_id,
 			'color',
-			$_POST['color']
+			sanitize_text_field( $_POST['color'] )
 		);
 	}
 }
