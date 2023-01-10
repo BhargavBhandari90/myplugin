@@ -26,7 +26,7 @@ function wporg_add_custom_box() {
 			'Custom Meta Box Title',      // Box title
 			'wporg_custom_box_html',  // Content callback, must be of type callable
 			$screen,                            // Post type
-			'side'
+			'normal'
 		);
 	}
 
@@ -38,6 +38,7 @@ function wporg_custom_box_html( $post ) {
 
 	$value = get_post_meta( $post->ID, 'custom_meta_key', true );
 	$color = get_post_meta( $post->ID, 'color', true );
+	$big_content = get_post_meta( $post->ID, 'big_content', true );
 	?>
 	<label for="wporg_field">Custom Field</label>
 	<br/>
@@ -46,12 +47,16 @@ function wporg_custom_box_html( $post ) {
 	<label for="color">Color</label>
 	<br/>
 	<input type="text" name="color" value="<?php echo $color; ?>">
+	<br/>
+	<label for="color">Text Area</label>
+	<br/>
+	<textarea name="big_content" rows="4"><?php echo $big_content; ?></textarea>
 	<?php
 }
 
 function wporg_save_postdata( $post_id ) {
 
-	if ( array_key_exists( 'custom_meta_key', $_POST ) || array_key_exists( 'color', $_POST ) ) {
+	if ( array_key_exists( 'custom_meta_key', $_POST ) || array_key_exists( 'color', $_POST ) || array_key_exists( 'big_content', $_POST ) ) {
 
 		update_post_meta(
 			$post_id,
@@ -63,6 +68,12 @@ function wporg_save_postdata( $post_id ) {
 			$post_id,
 			'color',
 			sanitize_text_field( $_POST['color'] )
+		);
+
+		update_post_meta(
+			$post_id,
+			'big_content',
+			sanitize_textarea_field( $_POST['big_content'] )
 		);
 	}
 }
