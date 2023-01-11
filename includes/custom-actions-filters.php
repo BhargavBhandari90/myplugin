@@ -39,6 +39,7 @@ function wporg_custom_box_html( $post ) {
 	$value = get_post_meta( $post->ID, 'custom_meta_key', true );
 	$color = get_post_meta( $post->ID, 'color', true );
 	$big_content = get_post_meta( $post->ID, 'big_content', true );
+	$big_content_new = get_post_meta( $post->ID, 'big_content_new', true );
 	?>
 	<label for="wporg_field">Custom Field</label>
 	<br/>
@@ -51,6 +52,10 @@ function wporg_custom_box_html( $post ) {
 	<label for="color">Text Area</label>
 	<br/>
 	<textarea name="big_content" rows="4"><?php echo $big_content; ?></textarea>
+	<br/>
+	<label for="color">Text Area 2</label>
+	<br/>
+	<textarea name="big_content_new" rows="4"><?php echo $big_content_new; ?></textarea>
 	<?php
 }
 
@@ -74,6 +79,20 @@ function wporg_save_postdata( $post_id ) {
 			$post_id,
 			'big_content',
 			sanitize_textarea_field( $_POST['big_content'] )
+		);
+
+		$allowed_html = array(
+			'div' => array(
+				'id' => array(),
+				'class' => array(),
+			),
+			'a' => array(),
+		);
+
+		update_post_meta(
+			$post_id,
+			'big_content_new',
+			wp_kses( $_POST['big_content_new'], $allowed_html )
 		);
 	}
 }
