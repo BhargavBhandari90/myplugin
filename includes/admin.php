@@ -292,3 +292,10 @@ add_action( 'admin_menu', 'bwp_admin_sub_menus' );
 function bwp_admin_sub_menu_callback() {
 	echo '<p>This is sub menu page.</p>';
 }
+
+// add_action( 'admin_init', 'bwp_remove_admin_menu' );
+
+function bwp_remove_admin_menu() {
+	remove_menu_page( 'tools.php' );
+	remove_menu_page( 'bp-activity' );
+}
