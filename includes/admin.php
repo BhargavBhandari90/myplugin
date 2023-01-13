@@ -298,4 +298,8 @@ function bwp_admin_sub_menu_callback() {
 function bwp_remove_admin_menu() {
 	remove_menu_page( 'tools.php' );
 	remove_menu_page( 'bp-activity' );
+
+	remove_submenu_page( 'plugins.php', 'plugin-install.php' );
+	remove_submenu_page( 'bp-groups', 'edit-tags.php?taxonomy=bp_group_type' );
+
 }
