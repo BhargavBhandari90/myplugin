@@ -40,14 +40,21 @@ function wporg_custom_box_html( $post ) {
 	$color = get_post_meta( $post->ID, 'color', true );
 	$big_content = get_post_meta( $post->ID, 'big_content', true );
 	$big_content_new = get_post_meta( $post->ID, 'big_content_new', true );
+
+	$img_url = wp_get_attachment_url( 1040 );
+	$text = 'ABC';
+
+	echo '<img src="' . esc_url( $img_url ) . '" />';
+	echo '<a href="' . esc_url( $img_url ) . '" >' . esc_html( $text ) . '</a>';
+
 	?>
 	<label for="wporg_field">Custom Field</label>
 	<br/>
-	<input type="text" name="custom_meta_key" value="<?php echo $value; ?>">
+	<input type="text" name="custom_meta_key" value="<?php echo esc_attr( $value ); ?>">
 	<br/>
 	<label for="color">Color</label>
 	<br/>
-	<input type="text" name="color" value="<?php echo $color; ?>">
+	<input type="text" name="color" value="<?php echo esc_attr( $color ); ?>">
 	<br/>
 	<label for="color">Text Area</label>
 	<br/>

@@ -17,7 +17,7 @@ function custom_rewrite_rules() {
     // add_rewrite_rule( '^book/([^/]+)/?$', 'index.php?name=$matches[1]', 'top' );
 }
 
-add_action( 'init', 'custom_rewrite_rules' );
+// add_action( 'init', 'custom_rewrite_rules' );
 
 /**
  * To change ppermalink structure for single post.
@@ -47,4 +47,4 @@ function custom_post_link( $permalink, $post, $leavename ) {
 	return $permalink;
 }
 
-add_filter( 'post_link', 'custom_post_link', 10, 3 );
+// add_filter( 'post_link', 'custom_post_link', 10, 3 );
