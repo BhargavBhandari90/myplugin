@@ -42,10 +42,12 @@ function wporg_custom_box_html( $post ) {
 	$big_content_new = get_post_meta( $post->ID, 'big_content_new', true );
 
 	$img_url = wp_get_attachment_url( 1040 );
-	$text = 'ABC';
+	$text    = 'ABC';
+	$number  = 2;
 
-	echo '<img src="' . esc_url( $img_url ) . '" />';
-	echo '<a href="' . esc_url( $img_url ) . '" >' . esc_html( $text ) . '</a>';
+	echo '<img src="' . esc_url( $img_url ) . '" /><br/>';
+
+	echo '<a href="' . esc_url( $img_url ) . '" onclick="myckick(' . esc_js( $number ) . ')" >' . esc_html( $text ) . '</a>';
 
 	?>
 	<label for="wporg_field">Custom Field</label>
@@ -58,7 +60,7 @@ function wporg_custom_box_html( $post ) {
 	<br/>
 	<label for="color">Text Area</label>
 	<br/>
-	<textarea name="big_content" rows="4"><?php echo $big_content; ?></textarea>
+	<textarea name="big_content" rows="4"><?php echo esc_textarea( $big_content ); ?></textarea>
 	<br/>
 	<label for="color">Text Area 2</label>
 	<br/>

@@ -35,6 +35,10 @@ function bunty_shortcode( $attr ) {
 
 	ob_start();
 
+	include_once ABSPATH . 'wp-admin/includes/image-edit.php';
+
+	wp_image_editor( 26288 ); // change this with attachment ID.
+
 	// The Loop
 	if ( $the_query->have_posts() ) {
 		echo '<ul>';
@@ -56,3 +60,27 @@ function bunty_shortcode( $attr ) {
 	return ob_get_clean();
 
 }
+
+function bwp_script_callback() {
+
+	wp_enqueue_style( 'imgareaselect' );
+
+	// wp_enqueue_script( 'wp-ajax-response' );
+	wp_enqueue_script(
+		'image-edit',
+		trailingslashit( site_url( 'wp-admin' ) ) . 'js/image-edit.js',
+		array( 'wp-i18n', 'jquery', 'jquery-ui-core', 'json2', 'imgareaselect', 'wp-a11y', 'wp-ajax-response' )
+	);
+}
+
+add_action( 'wp_enqueue_scripts', 'bwp_script_callback' );
+
+function bwp_head() {
+	?>
+	<script>
+		var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
+	</script>
+	<?php
+}
+
+add_action( 'wp_head', 'bwp_head' );
