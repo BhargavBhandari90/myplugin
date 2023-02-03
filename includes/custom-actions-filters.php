@@ -204,3 +204,18 @@ function bwp_delete_trasient( $post_id ) {
 }
 
 add_action( 'save_post_book', 'bwp_delete_trasient' );
+
+add_action( 'pre_delete_term', 'bwp_pre_delete_term', 10, 2 );
+
+function bwp_pre_delete_term( $term, $taxonomy ) {
+	add_action( 'admin_notices', 'sample_admin_notice__success' );
+	wp_die('NNNN');
+}
+
+function sample_admin_notice__success() {
+    ?>
+    <div class="notice notice-success is-dismissible">
+        <p><?php _e( 'Done!', 'sample-text-domain' ); ?></p>
+    </div>
+    <?php
+}

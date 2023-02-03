@@ -26,7 +26,7 @@ function bwp_uploader_callback() {
 
 }
 
-add_action( 'init', 'bwp_submit_form' );
+// add_action( 'init', 'bwp_submit_form' );
 
 function bwp_submit_form() {
 
@@ -46,6 +46,27 @@ function bwp_submit_form() {
 			update_option( 'my_upload_image_url' , $uploaded_file['url'] );
 
 		}
+
+	}
+
+}
+
+add_action( 'init', 'bwp_add_image_media_library' );
+
+function bwp_add_image_media_library() {
+
+	if ( isset( $_POST['bwp_upload'] ) ) {
+
+
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/media.php' );
+
+		// echo '<pre>';print_r( $_FILES );echo '</pre>';
+
+		$attachment_id = media_handle_upload( 'myfile', 0 );
+
+		var_dump($attachment_id);
 
 	}
 
