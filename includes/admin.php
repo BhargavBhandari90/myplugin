@@ -258,7 +258,7 @@ function bwp_setting_book_field_callback() {
 		$the_query = new WP_Query( $args );
 
 		// The Loop
-		if ( $the_query->have_posts() ){
+		if ( $the_query->have_posts() ) {
 
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post();
