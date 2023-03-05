@@ -229,8 +229,14 @@ add_action( 'admin_init', 'bwp_register_my_setting' );
 function bwp_setting_field_callback() {
 
 	$value = get_option( 'bwp_field_1' );
+	$class = 'bwp';
 
-	echo '<input type="text" name="bwp_field_1" value="' . esc_attr( $value ) . '" />';
+	// echo '<input type="text" name="bwp_field_1" value="' . esc_attr( $value ) . '" />';
+	echo wp_sprintf(
+		'<input type="text" name="bwp_field_1" value="%s" class="%s" />',
+		esc_attr( $value ),
+		esc_attr( $class )
+	);
 }
 
 function bwp_setting_book_field_callback() {
@@ -260,7 +266,13 @@ function bwp_setting_book_field_callback() {
 				// $selected = ( get_the_title() == $value ) ? 'selected' : '';
 				$selected = selected( get_the_title(), $value, false );
 
-				echo '<option ' . $selected . ' value="' . get_the_title() . '">' . get_the_title() . '</option>';
+				// echo '<option ' . $selected . ' value="' . get_the_title() . '">' . get_the_title() . '</option>';
+				echo wp_sprintf(
+					'<option %1$s value="%2$s">%3$s</option>',
+					$selected,
+					get_the_title(),
+					get_the_title()
+				);
 			}
 
 		} else {

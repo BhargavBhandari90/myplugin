@@ -115,6 +115,8 @@ function wp_custom_body_class( $classes ) {
 		$classes[] = 'buntywp';
 	}
 
+	error_log( print_r( $classes, true ) );
+
 	return $classes;
 
 }
@@ -205,7 +207,7 @@ function bwp_delete_trasient( $post_id ) {
 
 add_action( 'save_post_book', 'bwp_delete_trasient' );
 
-add_action( 'pre_delete_term', 'bwp_pre_delete_term', 10, 2 );
+// add_action( 'pre_delete_term', 'bwp_pre_delete_term', 10, 2 );
 
 function bwp_pre_delete_term( $term, $taxonomy ) {
 	add_action( 'admin_notices', 'sample_admin_notice__success' );
