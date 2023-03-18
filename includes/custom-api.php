@@ -13,15 +13,16 @@ function bwp_rest_api_init() {
 		'myplugin/v1',
 		'acf-books',
 		array(
-			'methods'             => 'GET',
+			'methods'             => WP_REST_Server::READABLE,
 			'callback'            => 'bwp_get_acf_books',
-			'permission_callback' => 'bwp_permission_callback',
+			// 'permission_callback' => 'bwp_permission_callback',
 			'args'                => array(
 				'meta-key'   => array(
-					'required'          => true,
-					'validate_callback' => function ( $param, $request, $key ) {
-						return ! is_numeric( $param );
-					},
+					// 'required'          => true,
+					'enum'              => array( 'red', 'green', 'blue' ),
+					// 'validate_callback' => function ( $param, $request, $key ) {
+					// 	return ! is_numeric( $param );
+					// },
 				),
 				'meta-value' => array(
 					// 'required'          => true,
