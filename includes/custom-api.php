@@ -36,9 +36,28 @@ function bwp_rest_api_init() {
 		)
 	);
 
+	register_rest_route(
+		'myplugin/v1',
+		'site-details',
+		array(
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => 'bwp_get_site_details',
+		)
+	);
+
 }
 
 add_action( 'rest_api_init', 'bwp_rest_api_init' );
+
+function bwp_get_site_details( WP_REST_Request $request ) {
+
+	$site_data = array(
+		'site_title'   => get_bloginfo( 'name' ),
+		'site_tagline' => get_bloginfo( 'description' ),
+	);
+
+	return rest_ensure_response( $site_data );
+}
 
 function bwp_get_custom_field( $obj ) {
 

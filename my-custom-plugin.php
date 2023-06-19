@@ -86,3 +86,22 @@ function custom_deactivation() {
 
 register_deactivation_hook( __FILE__, 'custom_deactivation' );
 
+
+
+/**
+ * Apply transaltion file as per WP language.
+ */
+function bwp_text_domain_loader() {
+
+	// Get mo file as per current locale.
+	$mofile = trailingslashit( MY_PLUGIN_PATH ) . 'languages/buntywp-' . get_locale() . '.mo';
+
+	// If file does not exists, then applu default mo.
+	if ( ! file_exists( $mofile ) ) {
+		$mofile = trailingslashit( MY_PLUGIN_PATH ) . 'languages/default.mo';
+	}
+
+	load_textdomain( 'buntywp', $mofile );
+}
+
+add_action( 'plugins_loaded', 'bwp_text_domain_loader' );

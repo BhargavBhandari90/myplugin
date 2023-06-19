@@ -209,7 +209,7 @@ function bwp_register_my_setting() {
 
 	add_settings_field(
 		'bwp_field_1',
-		esc_html__( 'Field 1', 'buntywp' ),
+		esc_html__( 'Field', 'buntywp' ),
 		'bwp_setting_field_callback',
 		'bwp_settings'
 	);
