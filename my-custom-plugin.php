@@ -31,6 +31,7 @@ include plugin_dir_path( __FILE__ ) . 'includes/wpdb-methods.php';
 include plugin_dir_path( __FILE__ ) . 'includes/image-uploader.php';
 include plugin_dir_path( __FILE__ ) . 'includes/image-cropper.php';
 include plugin_dir_path( __FILE__ ) . 'includes/blocks.php';
+include plugin_dir_path( __FILE__ ) . 'includes/headless-app-apis.php';
 
 /**
  * Add new time interval for cron job.
