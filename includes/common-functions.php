@@ -8,10 +8,10 @@
  *
  * @return void
  */
-function acf_get_custom_setting( $tab, $field ) {
+function acf_get_custom_setting( $tab, $field = '' ) {
 
 	// Prevent unnecessary function execution.
-	if ( ! function_exists( 'have_rows' ) || empty( $field ) || empty( $tab ) ) {
+	if ( ! function_exists( 'have_rows' ) || empty( $tab ) ) {
 		return;
 	}
 
@@ -20,9 +20,15 @@ function acf_get_custom_setting( $tab, $field ) {
 	// Get field value.
 	if ( have_rows( $tab, 'option' ) ) {
 
-		while ( have_rows( $tab, 'option' ) ) {
-			the_row();
-			$value = get_sub_field( $field );
+		if ( ! empty( $field ) ) {
+
+			while ( have_rows( $tab, 'option' ) ) {
+				the_row();
+				$value = get_sub_field( $field );
+			}
+
+		} else {
+			$value = get_field( $tab, 'option' );
 		}
 	}
 
