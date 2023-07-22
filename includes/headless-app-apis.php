@@ -35,7 +35,13 @@ function bwp_featured_image_url( $obj ) {
 
 	$post_id = $obj['id'];
 
-	return get_the_post_thumbnail_url( $post_id );
+	$image_url = get_the_post_thumbnail_url( $post_id );
+
+	if ( ! $image_url )  {
+		$image_url = 'https://dummyimage.com/720x400';
+	}
+
+	return $image_url;
 
 }
 

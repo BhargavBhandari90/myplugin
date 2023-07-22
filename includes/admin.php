@@ -315,3 +315,17 @@ function bwp_remove_admin_menu() {
 	remove_submenu_page( 'bp-groups', 'edit-tags.php?taxonomy=bp_group_type' );
 
 }
+
+function bwp_admin_style_script( $hook ) {
+
+	if ( 'toplevel_page_bwp_settings' === $hook ) {
+
+		wp_enqueue_style( 'bwp-admin-style', MY_PLUGIN_URL . 'assets/css/plugin.css' );
+
+		wp_enqueue_script( 'bwp-admin-script', MY_PLUGIN_URL . 'assets/js/plugin.js' );
+
+	}
+
+}
+
+add_action( 'admin_enqueue_scripts', 'bwp_admin_style_script' );
