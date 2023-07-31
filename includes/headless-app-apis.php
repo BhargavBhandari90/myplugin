@@ -62,3 +62,13 @@ function bwp_get_custom_settings( WP_REST_Request $request ) {
 	return rest_ensure_response( $data );
 
 }
+
+function bwp_jwt_auth_params( $data, $user ) {
+
+	$data['user_id'] = $user->ID;
+
+	return $data;
+
+}
+
+add_filter( 'jwt_auth_token_before_dispatch', 'bwp_jwt_auth_params', 10, 2 );
