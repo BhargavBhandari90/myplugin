@@ -40,6 +40,7 @@ function wporg_custom_box_html( $post ) {
 	$color = get_post_meta( $post->ID, 'color', true );
 	$big_content = get_post_meta( $post->ID, 'big_content', true );
 	$big_content_new = get_post_meta( $post->ID, 'big_content_new', true );
+	$are_you_ok = get_post_meta( $post->ID, 'are_you_ok', true );
 
 	$img_url = wp_get_attachment_url( 1040 );
 	$text    = 'ABC';
@@ -65,6 +66,14 @@ function wporg_custom_box_html( $post ) {
 	<label for="color">Text Area 2</label>
 	<br/>
 	<textarea name="big_content_new" rows="4"><?php echo $big_content_new; ?></textarea>
+	<br/>
+	<label for="color">Are you OK?</label>
+	<br/>
+	<select name="are_you_ok">
+		<option>Select Option</option>
+		<option value="Yes" <?php echo selected( 'Yes',$are_you_ok ); ?>>Yes</option>
+		<option value="No" <?php echo selected( 'No',$are_you_ok ); ?>>No</option>
+	</select>
 	<?php
 }
 
@@ -82,6 +91,12 @@ function wporg_save_postdata( $post_id ) {
 			$post_id,
 			'color',
 			sanitize_text_field( $_POST['color'] )
+		);
+
+		update_post_meta(
+			$post_id,
+			'are_you_ok',
+			sanitize_text_field( $_POST['are_you_ok'] )
 		);
 
 		update_post_meta(
@@ -221,3 +236,26 @@ function sample_admin_notice__success() {
     </div>
     <?php
 }
+
+function bwp_are_you_ok_rest( $args, $request ) {
+
+	$are_you_ok = $request->get_param( 'are_you_ok' );
+
+	if ( ! empty( $are_you_ok ) ) {
+
+		$args['meta_query'] = array(
+			array(
+				'key'     => 'are_you_ok',
+				'value'   => $are_you_ok,
+				'compare' => '=',
+			),
+		);
+	}
+
+	// echo '<pre>';print_r($args);echo '</pre>';
+
+	return $args;
+
+}
+
+add_filter( 'rest_post_query', 'bwp_are_you_ok_rest', 10, 2 );

@@ -15,7 +15,9 @@ function bwp_rest_api_init() {
 		array(
 			'methods'             => WP_REST_Server::READABLE,
 			'callback'            => 'bwp_get_acf_books',
-			// 'permission_callback' => 'bwp_permission_callback',
+			'permission_callback' => function() {
+				return is_user_logged_in();
+			},
 			'args'                => array(
 				'meta-key'   => array(
 					// 'required'          => true,
@@ -45,9 +47,28 @@ function bwp_rest_api_init() {
 		)
 	);
 
+	register_rest_route(
+		'myplugin/v1',
+		'test-api',
+		array(
+			'methods'             => WP_REST_Server::CREATABLE,
+			'callback'            => 'bwp_get_test_call_back',
+			'permission_callback' => function() {
+				return is_user_logged_in();
+			},
+		)
+	);
+
 }
 
 add_action( 'rest_api_init', 'bwp_rest_api_init' );
+
+function bwp_get_test_call_back( WP_REST_Request $request ) {
+
+	$abc = update_option( 'abc', 'xyz' );
+
+	return rest_ensure_response( $abc );
+}
 
 function bwp_get_site_details( WP_REST_Request $request ) {
 
@@ -79,12 +100,12 @@ function bwp_get_acf_books( WP_REST_Request $request ) {
 		'post_type'      => 'book',
 		'status'         => 'publish',
 		'posts_per_page' => 10,
-		'meta_query'     => array(
-			array(
-				'key'   => $meta_key,
-				'value' => $meta_value,
-			),
-		),
+		// 'meta_query'     => array(
+		// 	array(
+		// 		'key'   => $meta_key,
+		// 		'value' => $meta_value,
+		// 	),
+		// ),
 	);
 
 	// The Query

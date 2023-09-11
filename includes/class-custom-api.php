@@ -4,7 +4,7 @@
 class My_REST_ACF_Books_Controller extends WP_REST_Controller {
 
 	// Here initialize our namespace and resource name.
-	public function __construct() {
+	public function My_REST_ACF_Books_Controller() {
 		$this->namespace     = '/myplugin/v1';
 		$this->resource_name = 'acf-books';
 	}

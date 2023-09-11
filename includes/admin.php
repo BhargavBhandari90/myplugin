@@ -329,3 +329,92 @@ function bwp_admin_style_script( $hook ) {
 }
 
 add_action( 'admin_enqueue_scripts', 'bwp_admin_style_script' );
+
+function bwp_custom_columns_list( $columns ) {
+
+	$columns['are_you_ok'] = 'Are you OK?';
+
+	return $columns;
+
+}
+
+add_filter( 'manage_post_posts_columns', 'bwp_custom_columns_list' );
+
+
+function bwp_are_you_ok( $column_name, $post_id ) {
+
+	if ( 'are_you_ok' === $column_name ) {
+
+		$are_you_ok = get_post_meta( $post_id, 'are_you_ok', true );
+		$are_you_ok = empty( $are_you_ok ) ? 'No' : $are_you_ok;
+
+		echo $are_you_ok;
+	}
+
+}
+
+add_action( 'manage_posts_custom_column', 'bwp_are_you_ok', 10, 2 );
+
+function bwp_custom_filter( $post_type, $which ) {
+
+	if ( 'post' === $post_type ) {
+
+		$are_you_ok = filter_input( INPUT_GET, 'are_you_ok' );
+
+		?>
+		<select name="are_you_ok">
+			<option value="">Are you ok?</option>
+			<option value="Yes" <?php echo selected( 'Yes', $are_you_ok )  ?>>Yes</option>
+			<option value="No" <?php echo selected( 'No', $are_you_ok )  ?>>No</option>
+		</select>
+		<?php
+	}
+
+}
+
+add_action( 'restrict_manage_posts', 'bwp_custom_filter', 10, 2 );
+
+function bwp_change_result( $query ) {
+
+	$are_you_ok = filter_input( INPUT_GET, 'are_you_ok' );
+
+	if ( is_admin() && ! empty( $are_you_ok ) ) {
+
+		switch ( $are_you_ok ) {
+
+			case 'Yes':
+				$query->set( 'meta_query', array(
+					array(
+						'key'     => 'are_you_ok',
+						'compare' => '=',
+						'value'   => 'Yes',
+					)
+				) );
+				break;
+
+			case 'No':
+				$query->set( 'meta_query', array(
+					'relation' => 'OR',
+					array(
+						'key'     => 'are_you_ok',
+						'compare' => '=',
+						'value'   => 'No',
+					),
+					array(
+						'key'     => 'are_you_ok',
+						'compare' => 'NOT EXISTS',
+						'value'   => '',
+					)
+				) );
+				break;
+
+			default:
+				# code...
+				break;
+		}
+
+	}
+
+}
+
+add_action( 'pre_get_posts', 'bwp_change_result' );

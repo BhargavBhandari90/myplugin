@@ -1,0 +1,18 @@
+{
+    "name": "bhargav/myplugin",
+    "authors": [
+        {
+            "name": "Bunty",
+            "email": "bn.bhandari90@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpcompatibility/php-compatibility": "dev-develop",
+        "wp-coding-standards/wpcs": "^2.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
