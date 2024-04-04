@@ -59,9 +59,46 @@ function bwp_rest_api_init() {
 		)
 	);
 
+	register_rest_route(
+		'myplugin/v1',
+		'bwp-books',
+		array(
+			'methods'  => 'GET',
+			'callback' => 'bwp_get_books',
+		)
+	);
+
 }
 
 add_action( 'rest_api_init', 'bwp_rest_api_init' );
+
+function bwp_get_books( WP_REST_Request $request ) {
+
+	// echo '<pre>';print_r($request);echo '</pre>';
+	$meta_key = $request->get_param( 'meta-key' );
+	$meta_value = $request->get_param( 'meta-value' );
+
+	$args = array(
+		'post_type'      => 'book',
+		'status'         => 'publish',
+		'posts_per_page' => 10,
+		'meta_query' => array(
+			array(
+				'key' => $meta_key,
+				'value' => $meta_value,
+			)
+		)
+	);
+
+	// The Query
+	$the_query = new WP_Query( $args );
+
+	if ( empty( $the_query->posts ) ) {
+		wp_send_json_error( 'No data faound.' );
+	}
+
+	return wp_send_json_success( $the_query->posts );
+}
 
 function bwp_get_test_call_back( WP_REST_Request $request ) {
 

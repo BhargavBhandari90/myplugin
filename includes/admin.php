@@ -377,6 +377,8 @@ add_action( 'restrict_manage_posts', 'bwp_custom_filter', 10, 2 );
 function bwp_change_result( $query ) {
 
 	$are_you_ok = filter_input( INPUT_GET, 'are_you_ok' );
+	$orderby = filter_input( INPUT_GET, 'orderby' );
+	$order = filter_input( INPUT_GET, 'order' );
 
 	if ( is_admin() && ! empty( $are_you_ok ) ) {
 
@@ -415,6 +417,21 @@ function bwp_change_result( $query ) {
 
 	}
 
+	if ( $orderby && $order ) {
+		$query->set( 'meta_key', $orderby );
+		$query->set( 'orderby', 'meta_value' );
+		$query->set( 'order', $order );
+	}
+
 }
 
 add_action( 'pre_get_posts', 'bwp_change_result' );
+
+function bwp_sotable_column( $columns ) {
+
+	$columns['are_you_ok'] = 'are_you_ok';
+	return $columns;
+
+}
+
+add_filter( 'manage_edit-post_sortable_columns', 'bwp_sotable_column' );
