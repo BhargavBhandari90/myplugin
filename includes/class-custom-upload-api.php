@@ -1,12 +1,12 @@
 <?php
 
 
-class My_REST_ACF_Books_Controller extends WP_REST_Controller {
+class My_REST_File_Upload extends WP_REST_Controller {
 
 	// Here initialize our namespace and resource name.
-	public function My_REST_ACF_Books_Controller() {
+	public function My_REST_File_Upload() {
 		$this->namespace     = '/myplugin/v1';
-		$this->resource_name = 'acf-books';
+		$this->resource_name = 'bwp-upload';
 	}
 
 	// Register our routes.
@@ -17,8 +17,8 @@ class My_REST_ACF_Books_Controller extends WP_REST_Controller {
 			array(
 				// Here we register the readable endpoint for collections.
 				array(
-					'methods'             => 'GET',
-					'callback'            => array( $this, 'get_items' ),
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'upload_item' ),
 					// 'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				),
 				// Register our schema callback.
@@ -46,38 +46,33 @@ class My_REST_ACF_Books_Controller extends WP_REST_Controller {
 	 *
 	 * @param WP_REST_Request $request Current request.
 	 */
-	public function get_items( $request ) {
+	public function upload_item( $request ) {
 
-		$meta_key   = $request->get_param( 'meta-key' );
-		$meta_value = $request->get_param( 'meta-value' );
+		$file = $request->get_file_params();
 
-		$args = array(
-			'post_type'      => 'book',
-			'status'         => 'publish',
-			'posts_per_page' => 10,
-			'meta_query'     => array(
+		if ( empty( $file ) ) {
+			return new WP_Error(
+				'bwp_file_missing',
+				__( 'Sorry, you have not uploaded any file.', 'bwp-core' ),
 				array(
-					'key'   => $meta_key,
-					'value' => $meta_value,
-				),
-			),
-		);
-
-		// The Query
-		$the_query = new WP_Query( $args );
-		$acf_books = $the_query->posts;
-
-		if ( empty( $acf_books ) ) {
-			return rest_ensure_response( $acf_books );
+					'status' => 400,
+				)
+			);
 		}
 
-		foreach ( $acf_books as $book ) {
-			$response = $this->prepare_item_for_response( $book, $request );
-			$data[]   = $this->prepare_response_for_collection( $response );
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/media.php' );
+
+		$attachment_id = media_handle_upload( 'file', 0 );
+
+		if ( ! is_wp_error( $attachment_id ) ) {
+			$attachment = get_post( $attachment_id );
+			$attachment = $this->prepare_item_for_response( $attachment, $request );
 		}
 
 		// Return all of our comment response data.
-		return rest_ensure_response( $data );
+		return rest_ensure_response( $attachment );
 	}
 
 	/**
@@ -96,17 +91,17 @@ class My_REST_ACF_Books_Controller extends WP_REST_Controller {
 			$post_data['id'] = (int) $post->ID;
 		}
 
-		if ( isset( $schema['properties']['author'] ) ) {
-			$post_data['author'] = (int) $post->post_author;
+		if ( isset( $schema['properties']['link'] ) ) {
+			$post_data['link'] = wp_get_attachment_url( $post->ID );
 		}
 
-		if ( isset( $schema['properties']['content'] ) ) {
-			$post_data['content'] = apply_filters( 'post_text', $post->post_content, $post );
-		}
+		// if ( isset( $schema['properties']['content'] ) ) {
+		// 	$post_data['content'] = apply_filters( 'post_text', $post->post_content, $post );
+		// }
 
-		if ( isset( $schema['properties']['title'] ) ) {
-			$post_data['title'] = $post->post_title;
-		}
+		// if ( isset( $schema['properties']['title'] ) ) {
+		// 	$post_data['title'] = $post->post_title;
+		// }
 
 		return rest_ensure_response( $post_data );
 	}
@@ -126,7 +121,7 @@ class My_REST_ACF_Books_Controller extends WP_REST_Controller {
 			// This tells the spec of JSON Schema we are using which is draft 4.
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			// The title property marks the identity of the resource.
-			'title'      => 'acf-book',
+			'title'      => 'bwp-upload',
 			'type'       => 'object',
 			// In JSON Schema you can specify object properties in the properties attribute.
 			'properties' => array(
@@ -134,17 +129,9 @@ class My_REST_ACF_Books_Controller extends WP_REST_Controller {
 					'description' => esc_html__( 'Unique identifier for the object.', 'my-textdomain' ),
 					'type'        => 'integer',
 				),
-				'author'  => array(
-					'description' => esc_html__( 'The id of the user object, if author was a user.', 'my-textdomain' ),
+				'link'  => array(
+					'description' => esc_html__( 'Link of the attachment.', 'my-textdomain' ),
 					'type'        => 'integer',
-				),
-				'content' => array(
-					'description' => esc_html__( 'The content for the object.', 'my-textdomain' ),
-					'type'        => 'string',
-				),
-				'title'   => array(
-					'description' => esc_html__( 'The title for the object.', 'my-textdomain' ),
-					'type'        => 'string',
 				),
 			),
 		);
@@ -155,9 +142,9 @@ class My_REST_ACF_Books_Controller extends WP_REST_Controller {
 }
 
 // Function to register our new routes from the controller.
-function prefix_register_my_rest_routes() {
-	$controller = new My_REST_ACF_Books_Controller();
+function bwp_register_my_rest_routes() {
+	$controller = new My_REST_File_Upload();
 	$controller->register_routes();
 }
 
-add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );
+add_action( 'rest_api_init', 'bwp_register_my_rest_routes' );
