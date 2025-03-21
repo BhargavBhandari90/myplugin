@@ -33,7 +33,6 @@ function admin_explore() {
 		'Example contents of a file',
 		FS_CHMOD_FILE // predefined mode settings for WP files
 	);
-
 }
 
 /**
@@ -55,7 +54,6 @@ function buntywp_acf_setting_pages() {
 			'parent_slug' => 'options-general.php',
 		)
 	);
-
 }
 
 // Add admin menu for custom ACF setting.
@@ -83,7 +81,6 @@ function favourite_books_options( $fields ) {
 	}
 
 	return $fields;
-
 }
 
 add_filter( 'acf/load_field/name=favourite_books', 'favourite_books_options' );
@@ -103,13 +100,16 @@ function buntywp_extra_user_profile_fields( $user ) {
 	<h3><?php _e( 'Extra profile fields', 'default' ); ?></h3>
 
 	<table class="form-table">
-	  <tr>
+		<tr>
 		<th><label for="extra_field"><?php _e( 'Extra Field' ); ?></label></th>
 		<td>
-		  <input type="text" name="extra_field" id="extra_field" value="<?php echo esc_attr( $extra_field ); ?>" class="regular-text" /><br />
-		  <p class="description"><?php _e( 'Description goes gere.', 'default' ); ?></p>
+			<select name="extra_field">
+				<option <?php selected( $extra_field, 'male', true ); ?> value="male">Male</option>
+				<option <?php selected( $extra_field, 'female', true ); ?> value="female">Female</option>
+			</select>
+			<p class="description"><?php _e( 'Description goes gere.', 'default' ); ?></p>
 		</td>
-	  </tr>
+		</tr>
 	</table>
 	<?php
 }
@@ -274,7 +274,6 @@ function bwp_setting_book_field_callback() {
 					get_the_title()
 				);
 			}
-
 		} else {
 			// no posts found
 		}
@@ -287,7 +286,6 @@ function bwp_setting_book_field_callback() {
 }
 
 /** Custom admin menu page form - End */
-
 function bwp_admin_sub_menus() {
 
 	add_posts_page(
@@ -313,7 +311,6 @@ function bwp_remove_admin_menu() {
 
 	remove_submenu_page( 'plugins.php', 'plugin-install.php' );
 	remove_submenu_page( 'bp-groups', 'edit-tags.php?taxonomy=bp_group_type' );
-
 }
 
 function bwp_admin_style_script( $hook ) {
@@ -325,7 +322,6 @@ function bwp_admin_style_script( $hook ) {
 		wp_enqueue_script( 'bwp-admin-script', MY_PLUGIN_URL . 'assets/js/plugin.js' );
 
 	}
-
 }
 
 add_action( 'admin_enqueue_scripts', 'bwp_admin_style_script' );
@@ -335,7 +331,6 @@ function bwp_custom_columns_list( $columns ) {
 	$columns['are_you_ok'] = 'Are you OK?';
 
 	return $columns;
-
 }
 
 add_filter( 'manage_post_posts_columns', 'bwp_custom_columns_list' );
@@ -350,7 +345,6 @@ function bwp_are_you_ok( $column_name, $post_id ) {
 
 		echo $are_you_ok;
 	}
-
 }
 
 add_action( 'manage_posts_custom_column', 'bwp_are_you_ok', 10, 2 );
@@ -364,12 +358,11 @@ function bwp_custom_filter( $post_type, $which ) {
 		?>
 		<select name="are_you_ok">
 			<option value="">Are you ok?</option>
-			<option value="Yes" <?php echo selected( 'Yes', $are_you_ok )  ?>>Yes</option>
-			<option value="No" <?php echo selected( 'No', $are_you_ok )  ?>>No</option>
+			<option value="Yes" <?php echo selected( 'Yes', $are_you_ok ); ?>>Yes</option>
+			<option value="No" <?php echo selected( 'No', $are_you_ok ); ?>>No</option>
 		</select>
 		<?php
 	}
-
 }
 
 add_action( 'restrict_manage_posts', 'bwp_custom_filter', 10, 2 );
@@ -377,44 +370,49 @@ add_action( 'restrict_manage_posts', 'bwp_custom_filter', 10, 2 );
 function bwp_change_result( $query ) {
 
 	$are_you_ok = filter_input( INPUT_GET, 'are_you_ok' );
-	$orderby = filter_input( INPUT_GET, 'orderby' );
-	$order = filter_input( INPUT_GET, 'order' );
+	$orderby    = filter_input( INPUT_GET, 'orderby' );
+	$order      = filter_input( INPUT_GET, 'order' );
 
 	if ( is_admin() && ! empty( $are_you_ok ) ) {
 
 		switch ( $are_you_ok ) {
 
 			case 'Yes':
-				$query->set( 'meta_query', array(
+				$query->set(
+					'meta_query',
 					array(
-						'key'     => 'are_you_ok',
-						'compare' => '=',
-						'value'   => 'Yes',
+						array(
+							'key'     => 'are_you_ok',
+							'compare' => '=',
+							'value'   => 'Yes',
+						),
 					)
-				) );
+				);
 				break;
 
 			case 'No':
-				$query->set( 'meta_query', array(
-					'relation' => 'OR',
+				$query->set(
+					'meta_query',
 					array(
-						'key'     => 'are_you_ok',
-						'compare' => '=',
-						'value'   => 'No',
-					),
-					array(
-						'key'     => 'are_you_ok',
-						'compare' => 'NOT EXISTS',
-						'value'   => '',
+						'relation' => 'OR',
+						array(
+							'key'     => 'are_you_ok',
+							'compare' => '=',
+							'value'   => 'No',
+						),
+						array(
+							'key'     => 'are_you_ok',
+							'compare' => 'NOT EXISTS',
+							'value'   => '',
+						),
 					)
-				) );
+				);
 				break;
 
 			default:
-				# code...
+				// code...
 				break;
 		}
-
 	}
 
 	if ( $orderby && $order ) {
@@ -422,7 +420,6 @@ function bwp_change_result( $query ) {
 		$query->set( 'orderby', 'meta_value' );
 		$query->set( 'order', $order );
 	}
-
 }
 
 add_action( 'pre_get_posts', 'bwp_change_result' );
@@ -431,7 +428,47 @@ function bwp_sotable_column( $columns ) {
 
 	$columns['are_you_ok'] = 'are_you_ok';
 	return $columns;
-
 }
 
 add_filter( 'manage_edit-post_sortable_columns', 'bwp_sotable_column' );
+
+function bwp_user_extra_filter( $which ) {
+
+	if ( 'top' === $which ) {
+
+		$value = isset( $_GET['gender'] ) ? $_GET['gender'] : '';
+
+		?>
+		<select name="gender">
+			<option value="">Extra Filter</option>
+			<option value="male" <?php selected( $value, 'male', true ); ?>>Male</option>
+			<option value="female" <?php selected( $value, 'female', true ); ?>>Female</option>
+		</select>
+		<?php
+
+		submit_button( 'Filter', '', '', false );
+	}
+}
+
+add_action( 'manage_users_extra_tablenav', 'bwp_user_extra_filter' );
+
+function bwp_filter_users( $query ) {
+
+	$value = isset( $_GET['gender'] ) ? $_GET['gender'] : '';
+
+	if ( ! empty( $value ) ) {
+
+		$query->set(
+			'meta_query',
+			array(
+				array(
+					'key'     => 'extra_field',
+					'compare' => '=',
+					'value'   => $value,
+				),
+			)
+		);
+	}
+}
+
+add_action( 'pre_get_users', 'bwp_filter_users' );
